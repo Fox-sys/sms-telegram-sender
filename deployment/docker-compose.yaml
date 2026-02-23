@@ -12,7 +12,7 @@ services:
       - DB_URL=sqlite+aiosqlite:////data/sms.db
     volumes:
       - ./db-data:/data
-    command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && su -s /bin/sh app -c 'entrypoint_migrate.sh upgrade head'"
+    command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && env | grep -E '^(DB_|TELEGRAM_|API_|ALEMBIC_)' > /tmp/app.env && chown app /tmp/app.env && su -s /bin/sh app -c 'set -a && . /tmp/app.env 2>/dev/null; set +a && entrypoint_migrate.sh upgrade head'"
     restart: "no"
 
   api:
@@ -30,7 +30,7 @@ services:
       - DB_URL=sqlite+aiosqlite:////data/sms.db
     volumes:
       - ./db-data:/data
-    command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && su -s /bin/sh app -c entrypoint_api.sh"
+    command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && env | grep -E '^(DB_|TELEGRAM_|API_|ALEMBIC_)' > /tmp/app.env && chown app /tmp/app.env && su -s /bin/sh app -c 'set -a && . /tmp/app.env 2>/dev/null; set +a && entrypoint_api.sh'"
     depends_on:
       migrate:
         condition: service_completed_successfully
