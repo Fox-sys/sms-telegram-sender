@@ -4,9 +4,8 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class DBSettings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="DB_",
-        extra="ignore",
     )
-    DB_URL: str = "sqlite+aiosqlite:///./sms.db"
+    DB_URL: str
     DB_ECHO: bool = False
     LOGGING_LEVEL: str = "INFO"
 
