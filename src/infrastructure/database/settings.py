@@ -2,12 +2,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class DBSettings(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_prefix="DB_",
-    )
     DB_URL: str
     DB_ECHO: bool = False
-    LOGGING_LEVEL: str = "INFO"
+    DB_LOGGING_LEVEL: str = "INFO"
 
     @property
     def LOGGING_CONFIG(self) -> dict:
