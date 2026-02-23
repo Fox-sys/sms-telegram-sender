@@ -10,7 +10,7 @@ services:
       - ../.env
     volumes:
       - ./db-data:/data
-    command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && su -s /bin/sh app -c 'entrypoint_migrate.sh upgrade head'"
+    command: sh -c "mkdir -p /data && chmod 750 /data && entrypoint_migrate.sh upgrade head && chown -R 999:999 /data"
     restart: "no"
 
   api:
