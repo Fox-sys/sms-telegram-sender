@@ -4,8 +4,6 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class DBSettings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="DB_",
-        env_file=".env",
-        env_file_encoding="utf-8",
         extra="ignore",
     )
     DB_URL: str = "sqlite+aiosqlite:///./sms.db"
@@ -35,8 +33,6 @@ class DBSettings(BaseSettings):
 class AlembicSettings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="ALEMBIC_",
-        env_file=".env",
-        env_file_encoding="utf-8",
         extra="ignore",
     )
     ALEMBIC_SCRIPT_LOCATION: str = "src/infrastructure/database/alembic"

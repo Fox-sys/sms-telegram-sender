@@ -9,6 +9,7 @@ def make_config() -> Config:
     db_settings = DBSettings()
     alembic_settings = AlembicSettings()
     config = Config()
+    print(db_settings.DB_URL)
     config.set_main_option("script_location", alembic_settings.ALEMBIC_SCRIPT_LOCATION)
     config.set_main_option("version_locations", alembic_settings.ALEMBIC_VERSION_LOCATIONS)
     config.set_main_option("sqlalchemy.url", db_settings.DB_URL)
