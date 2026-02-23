@@ -8,9 +8,11 @@ services:
     user: root
     env_file:
       - ../.env
+    environment:
+      - DB_URL=sqlite+aiosqlite:////data/sms.db
     volumes:
       - ./db-data:/data
-    command: sh -c "mkdir -p /data && chmod 750 /data && entrypoint_migrate.sh upgrade head && chown -R 999:999 /data"
+    command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && su -s /bin/sh app -c 'entrypoint_migrate.sh upgrade head'"
     restart: "no"
 
   api:
@@ -24,6 +26,8 @@ services:
       - "8000:${API_PORT:-8080}"
     env_file:
       - ../.env
+    environment:
+      - DB_URL=sqlite+aiosqlite:////data/sms.db
     volumes:
       - ./db-data:/data
     command: sh -c "mkdir -p /data && chown -R 999:999 /data && chmod -R 750 /data && su -s /bin/sh app -c entrypoint_api.sh"
