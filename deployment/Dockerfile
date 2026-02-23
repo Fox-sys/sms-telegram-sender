@@ -3,7 +3,7 @@ FROM python:3.13-slim as build
 ENV USERNAME=app
 
 RUN apt update \
-    && apt install -y unixodbc-dev \
+    && apt install -y unixodbc-dev gosu \
     && rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml poetry.lock README.md /app/
@@ -29,6 +29,6 @@ RUN chmod +x /usr/local/bin/*.sh
 
 WORKDIR /usr/local/lib/python3.13/site-packages/
 
-USER $USERNAME
-
-FROM build as final
+FROM build AS final
+USER root
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
